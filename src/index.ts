@@ -4,7 +4,7 @@ import SimplGit from "simple-git";
 import bodyParser from "body-parser";
 import path from "path";
 import { generateId } from "./utils/generateId";
-import { getAllFiles } from "./utils/getAllFiles";
+import { getAllFiles } from "./getAllFiles";
 
 const app: Express = express();
 const port = process.env.PORT || 5001;

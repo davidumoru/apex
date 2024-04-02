@@ -2,7 +2,9 @@ import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import SimplGit from "simple-git";
 import bodyParser from "body-parser";
+import path from "path";
 import { generateId } from "./utils/generateId";
+import { getAllFiles } from "./utils/getAllFiles";
 
 const app: Express = express();
 const port = process.env.PORT || 5001;
@@ -16,7 +18,11 @@ app.get("/", (req: Request, res: Response) => {
 app.post("/deploy", async (req: Request, res: Response) => {
   const repoUrl = req.body.repoUrl;
   const id = generateId();
-  await SimplGit().clone(repoUrl, `output/${id}`);
+  await SimplGit().clone(repoUrl, path.join(__dirname, `output/${id}`));
+
+  const files = getAllFiles(path.join(__dirname, `output/${id}`));
+  console.log(files);
+
   res.json({ id: id });
 });
 

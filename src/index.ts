@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import path from "path";
 import { generateId } from "./utils/generateId";
 import { getAllFiles } from "./getAllFiles";
+import { uploadFile } from "./aws";
 
 const app: Express = express();
 const port = process.env.PORT || 5001;
@@ -22,6 +23,10 @@ app.post("/deploy", async (req: Request, res: Response) => {
 
   const files = getAllFiles(path.join(__dirname, `output/${id}`));
   console.log(files);
+
+  files.forEach(async file => {
+    await uploadFile(file.slice(__dirname.length + 1), file)
+  } )
 
   res.json({ id: id });
 });
